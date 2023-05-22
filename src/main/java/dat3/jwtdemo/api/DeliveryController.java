@@ -30,4 +30,8 @@ public class DeliveryController {
     DeliveryResponse findById(@PathVariable Integer id){
         return deliveryService.findById(id);
     }
+    @GetMapping("van/{vanId}")
+    List<DeliveryResponse> findByVan(@PathVariable Integer vanId){
+        return deliveryService.findByVan(vanId);
+    }
 }

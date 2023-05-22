@@ -5,10 +5,8 @@ import dat3.jwtdemo.entity.Van;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public interface DeliveryRepo extends JpaRepository<Delivery, Integer> {
+public interface VanRepo extends JpaRepository<Van, Integer> {
 
-    List<Delivery> findAllByVan(Van van);
+
 }

@@ -3,9 +3,11 @@ package dat3.jwtdemo.configuration;
 import dat3.jwtdemo.entity.Delivery;
 import dat3.jwtdemo.entity.Product;
 import dat3.jwtdemo.entity.ProductOrder;
+import dat3.jwtdemo.entity.Van;
 import dat3.jwtdemo.repository.DeliveryRepo;
 import dat3.jwtdemo.repository.ProductOrderRepo;
 import dat3.jwtdemo.repository.ProductRepo;
+import dat3.jwtdemo.repository.VanRepo;
 import dat3.security.entity.Role;
 import dat3.security.entity.UserWithRoles;
 import org.springframework.boot.ApplicationArguments;
@@ -25,13 +27,15 @@ public class SetupDevUsers implements ApplicationRunner {
     ProductOrderRepo productOrderRepo;
 
     DeliveryRepo deliveryRepo;
+    VanRepo vanRepo;
 
-    public SetupDevUsers(UserWithRolesRepository userWithRolesRepository,ProductRepo productRepo,ProductOrderRepo productOrderRepo,DeliveryRepo deliveryRepo) {
+    public SetupDevUsers(UserWithRolesRepository userWithRolesRepository,ProductRepo productRepo,ProductOrderRepo productOrderRepo,DeliveryRepo deliveryRepo,VanRepo vanRepo) {
         this.userWithRolesRepository = userWithRolesRepository;
         passwordUsedByAll = "test12";
         this.productRepo = productRepo;
         this.productOrderRepo=productOrderRepo;
         this.deliveryRepo = deliveryRepo;
+        this.vanRepo=vanRepo;
     }
 
     @Override
@@ -123,8 +127,41 @@ public class SetupDevUsers implements ApplicationRunner {
         Delivery delivery = Delivery.builder().deliveryDate(LocalDate.now()).destination("København").fromWarehouse("Odense").build();
         deliveryRepo.save(delivery);
 
+        Delivery delivery2 = Delivery.builder().deliveryDate(LocalDate.now()).destination("månen").fromWarehouse("Mars").build();
+        deliveryRepo.save(delivery2);
         ProductOrder productOrder = ProductOrder.builder().product(product).delivery(delivery).quantity(5).build();
         productOrderRepo.save(productOrder);
+
+        ProductOrder productOrder2 = ProductOrder.builder().product(product).delivery(delivery2).quantity(999999999).build();
+        productOrderRepo.save(productOrder2);
+
+        // Small Van
+        Van smallVan = Van.builder()
+                .model("Small Van")
+                .capacity(500)
+                .brand("Bob Vance")
+                .build();
+        smallVan.addDelivery(delivery);
+        vanRepo.save(smallVan);
+        deliveryRepo.save(delivery);
+
+
+// Medium Van
+        Van mediumVan = Van.builder()
+                .model("Medium Van")
+                .capacity(1000)
+                .brand("Bob Vance")
+                .build();
+        vanRepo.save(mediumVan);
+
+// Large Van
+        Van largeVan = Van.builder()
+                .model("Large Van")
+                .capacity(1500)
+                .brand("Bob Vance")
+                .build();
+        vanRepo.save(largeVan);
+
     }
 
     /*****************************************************************************************

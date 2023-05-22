@@ -28,6 +28,9 @@ public class Delivery {
     @OneToMany(mappedBy = "delivery")
     List<ProductOrder> productOrders;
 
+    @ManyToOne
+    Van van;
+
     public void addProductOrder(ProductOrder p){
         if(productOrders ==null){
             productOrders = new ArrayList<>();
